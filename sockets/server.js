@@ -1,13 +1,25 @@
 const express = require('express');
-const app = express();
+const  app = express();
 const http = require('http');
 const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+app.get('/', (req, res)=> {
+    res.send('<h1>Hello Mundo</h1>')
+})
 
 app.get('/', (req, res) => {
-  res.send('<h1>Hello world</h1>');
-});
+    res.sendFile(__dirname + '/index.html');
+  });
 
-server.listen(3000, () => {
-  console.log('Servidor escuchando en el puerto *:3000');
-});
+  io.on('connection', (socket) => {
+    console.log('a user connected');
+  });
+
+
+server.listen(3000, ()=> {
+    console.log("Servidor arrancado")
+})
+
 
